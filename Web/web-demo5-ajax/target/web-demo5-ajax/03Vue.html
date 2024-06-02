@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<!--
+    Vue是一套前端的框架，在js中简化Dom操作
+    使用需要：导入vue.js
+    1.改变框里面的值，对应的路径也改变
+        1.绑定表单中的输入使用:v-model="url"
+        2.绑定超链接跳转路径属性使用:v-bind:href="url"或:href="url"
+        3.展示绑定模型的内容使用:{{}}}
+    2.点击按钮调用不同方法
+        1.绑定事件元素使用:v-on:click="show()或者@click="show()"
+        2.引入方法:在js的Vue模块中使用methods
+    3.通过输入展示不同标签
+        1.if else：使用v-if="条件"属性
+        2.展示内容与否:使用v-show标签
+    4.遍历模型：使用v-for=""属性
+        在此案例中addr为局部变量名称，根据情况选择是否使用索引
+-->
+<div id="app">
+    <input v-model="url"><br>
+    <a v-bind:href="url">{{url}}</a><br>
+    <a :href="url">{{url}}</a><br><br><br>
+
+    <input type="button" value="按钮1" v-on:click="show()"><br>
+    <input type="button" value="按钮2" @click="show()"><br><br><br>
+
+    <div v-if="count==1">div1</div>
+    <div v-else-if="count==2">div2</div>
+    <div v-else>div3</div>
+    <div v-show="count==4">div4</div>
+    <input v-model="count"><br><br><br>
+
+    <div v-for="addr in addrs">
+        {{addr}}<br>
+    </div>
+    <div v-for="(addr,i) in addrs">
+        {{i+1}}--{{addr}}<br>
+    </div>
+</div>
+<script src="js/vue.js"></script>
+<script>
+    new Vue({//创建vue核心对象
+        el:"#app",//作用范围
+        methods:{//方法
+            show(){
+                alert("按钮被点击")
+            }
+        },
+        data(){//模型数据
+            return {
+                url:"https://www.baidu.com",
+                count:1,
+                addrs:["北京","上海","西安"]
+            }
+        },
+        mounted(){//页面加载完成后的方法
+            alert("加载完成")
+        }
+    })
+</script>
+</body>
+</html>

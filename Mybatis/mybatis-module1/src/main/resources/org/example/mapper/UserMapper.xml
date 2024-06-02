@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--这个文件相当于为指定的mapper接口写具体实现-->
+<!--该标签需要指定namespace属性为对应需要实现的接口的全类名-->
+<mapper namespace="org.example.mapper.UserMapper">
+    <!--该标签表示查询命令，属性指定返回数据的类型-->
+     <select id="selectAll" resultType="org.example.pojo.User">
+        select * from tb_user;
+    </select>
+</mapper>

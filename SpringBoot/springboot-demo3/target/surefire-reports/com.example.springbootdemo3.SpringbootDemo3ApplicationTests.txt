@@ -1,0 +1,14 @@
+-------------------------------------------------------------------------------
+Test set: com.example.springbootdemo3.SpringbootDemo3ApplicationTests
+-------------------------------------------------------------------------------
+Tests run: 2, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 0.586 s <<< FAILURE! -- in com.example.springbootdemo3.SpringbootDemo3ApplicationTests
+com.example.springbootdemo3.SpringbootDemo3ApplicationTests.JWTParse -- Time elapsed: 0.535 s <<< ERROR!
+io.jsonwebtoken.ExpiredJwtException: JWT expired at 2024-03-18T20:01:02Z. Current time: 2024-03-24T09:55:28Z, a difference of 482066652 milliseconds.  Allowed clock skew: 0 milliseconds.
+	at io.jsonwebtoken.impl.DefaultJwtParser.parse(DefaultJwtParser.java:385)
+	at io.jsonwebtoken.impl.DefaultJwtParser.parse(DefaultJwtParser.java:481)
+	at io.jsonwebtoken.impl.DefaultJwtParser.parseClaimsJws(DefaultJwtParser.java:541)
+	at com.example.springbootdemo3.SpringbootDemo3ApplicationTests.JWTParse(SpringbootDemo3ApplicationTests.java:32)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+

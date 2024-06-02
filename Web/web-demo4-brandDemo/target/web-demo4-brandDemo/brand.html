@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<a href="addBrand.html"><input type="button" value="新增"></a><br>
+<hr>
+<table id="brandTable" border="1" cellspacing="0" width="100%"></table>
+<script src="js/axios-0.18.0.js"></script>
+<script>
+    //页面加载完毕发送ajax请求：
+    window.onload = function () {
+        //改路径，记得设置为全路径
+        axios.get("http://localhost/web_demo4_brandDemo_war/ajaxSelectAllServlet").then(resp => {
+            //根据响应获取数据
+            let brands = resp.data;
+            let tabledata =
+                "<tr>\n" +
+                "        <th>序号</th>\n" +
+                "        <th>品牌名称</th>\n" +
+                "        <th>企业名称</th>\n" +
+                "        <th>排序</th>\n" +
+                "        <th>品牌介绍</th>\n" +
+                "        <th>状态</th>\n" +
+                "        <th>操作</th>\n" +
+                "    </tr>";
+            //遍历响应的数据
+            for (let i = 0; i < brands.length; i++) {
+                let brand = brands[i];
+                tabledata +=
+                    "    <tr align=\"center\">\n" +
+                    "        <td>" + (i + 1) + "</td>\n" +
+                    "        <td>" + brand.brandName + "</td>\n" +
+                    "        <td>" + brand.companyName + "</td>\n" +
+                    "        <td>" + brand.ordered + "</td>\n" +
+                    "        <td>" + brand.description + "</td>\n" +
+                    "        <td>" + brand.status + "</td>\n" +
+                    "        <td><a href=\"#\">修改</a> <a href=\"#\">删除</a></td>\n" +
+                    "    </tr>"
+            }
+            document.getElementById("brandTable").innerHTML = tabledata
+        })
+    }
+</script>
+</body>
+</html>

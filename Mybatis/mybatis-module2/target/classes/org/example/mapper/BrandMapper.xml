@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.example.mapper.BrandMapper">
+    <!--
+    1.查询所有
+    实体类的属性与表的列名冲突不一样时，mybatis不能自动封装数据，导致查询结果为null
+    比如mysql表的列名为brand_name，java类中变量名为brandName
+    -->
+
+    <!--1.1无法查询完整的数据的写法-->
+    <select id="selectAll1" resultType="Brand">
+        select * from tb_brand;
+    </select>
+
+    <!--
+        1.2能够查询完整数据的写法：对sql表与java类中名称不同的属性做映射
+
+        resultMap标签中的属性：
+        需要指定id（唯一标识），在后续标签中返回中会用到，代替原本的resultType
+        需要指定返回的实体类type（可以使用别名）
+
+        内部的标签：
+        需要指定是主键还是其它键
+        <id>标签是主键的映射，<result>标签是其他键的映射
+        需要指定表的列名与实体类中的属性名
+        column是表的列名，property是Java类中的属性名
+    -->
+    <resultMap id="brandResultMap" type="Brand">
+        <id column="id" property="id"/>
+        <result column="brand_name" property="brandName"/>
+        <result column="company_name" property="companyName"/>
+    </resultMap>
+    <select id="selectAll2" resultMap="brandResultMap">
+        select * from tb_brand;
+    </select>
+
+
+
+    <!--
+    2.单条件查询
+
+    使用#{name}代表接口中传入的数据，也可以使用${name}
+    前者将对数据进行处理（如防止sql注入，或给模糊查询中的数据自动封装双引号......）
+    后者则把数据原封不动传入标签中的sql语句（本工程中无此案例）。
+
+    使用大于小于符号时可以使用转义符（如&lt;）
+    -->
+    <select id="selectById" resultMap="brandResultMap">
+        select * from tb_brand where id = #{id};
+    </select>
+
+
+    <!--4.多条件查询，在mapper接口中能有多种方法(重载)去传递信息，在映射文件中只写一个查询语句-->
+    <select id="selectByCondition" resultMap="brandResultMap">
+        select * from tb_brand
+        where status=#{status}
+        and company_name like #{companyName}
+        and brand_name like #{brandName};
+    </select>
+
+    <!--
+        5.1多条件查询-动态查询
+        使用where标签与if标签,查询条件为0~n个
+        where去除第一个条件“1=1”
+        需要注意字符串可以为''和null的两种情况
+    -->
+    <select id="selectByCondition2" resultMap="brandResultMap">
+        select * from tb_brand
+        <where>
+            <if test="status!=null">
+                and status=#{status}
+            </if>
+            <if test="companyName!=null and companyName!=''">
+                and company_name like #{companyName}
+            </if>
+            <if test="brandName!=null and brandName!=''">
+                and brand_name like #{brandName}
+            </if>
+        </where>
+    </select>
+
+    <!--
+        5.2多条件查询-动态查询：
+        使用where+choose+when标签，查询条件有0~1个
+        where可以去除choose标签中使用otherwise标签写1=1的情况，去除where会报错
+    -->
+    <select id="selectByCondition3" resultMap="brandResultMap">
+        select *
+        from tb_brand
+        <where>
+            <choose>
+                <when test="status!=null">
+                    status=#{status}
+                </when>
+                <when test='companyName!=null and companyName!=""'>
+                    company_name like #{companyName}
+                </when>
+                <when test="brandName!=null and brandName!=''">
+                    brand_name like #{brandName}
+                </when>
+            </choose>
+        </where>
+    </select>
+
+
+    <!--6.1增加数据-->
+    <insert id="add">
+        insert into tb_brand (brand_name, company_name, ordered, description, status)
+        values (#{brandName},#{companyName},#{ordered},#{description},#{status});
+    </insert>
+
+    <!--
+        7.使用userGeneratedKeys与keyProperty属性可在添加数据时，
+        把数据库中的表中自动增长的数据赋值给实体类对象的属性（自动增长的id）
+    -->
+    <insert id="add2" useGeneratedKeys="true" keyProperty="id">
+        insert into tb_brand (brand_name, company_name, ordered, description, status)
+        values (#{brandName},#{companyName},#{ordered},#{description},#{status});
+    </insert>
+
+
+
+    <!--
+        8.修改数据
+    -->
+    <update id="updateById">
+        update tb_brand set
+            status =#{status},
+            company_name =#{companyName},
+            brand_name =#{brandName},
+            ordered =#{ordered},
+            description =#{description}
+        where id=#{id};
+    </update>
+
+    <!--
+        9.动态修改数据
+        当传输的数据为空时，修改的数据也会变成空
+        使用set标签(只使用if标签可能会多出逗号)
+    -->
+    <update id="updateById2">
+        update tb_brand
+        <set>
+            <if test="brandName!=null and brandName!=''">
+                brand_name =#{brandName},
+            </if>
+            <if test="companyName!=null and companyName!=''">
+                company_name =#{companyName},
+            </if>
+            <if test="ordered!=null">
+                ordered =#{ordered},
+            </if>
+            <if test="status!=null">
+                status =#{status},
+            </if>
+            <if test="description!=null and description!=''">
+                description =#{description}
+            </if>
+        </set>
+        where id=#{id};
+    </update>
+
+    <delete id="deleteById">
+        delete from tb_brand where id =#{id};
+    </delete>
+
+    <!--
+        批量删除
+        mybatis会将数组参数封装为map集合
+        键为array,值是数组
+
+        这里使用foreach遍历数组
+        collection在这里可以写array，也能写arg0
+        item表示每一个数据，是#{}中的内容
+        separator分隔符，open 与close表示在这段左边与右边添加（）
+    -->
+    <delete id="deleteByIds">
+        delete from tb_brand where id in
+        <foreach collection="array" item="id" separator="," open="(" close=")">
+            #{id}
+        </foreach>;
+    </delete>
+
+</mapper>

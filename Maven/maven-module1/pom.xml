@@ -1,0 +1,53 @@
+<!--
+    1.导入依赖A时如果这个依赖又依靠依赖B，此时应该再去导入依赖B吗？
+    2.能够导入本地的模块吗？
+    3.如何排除导入的模块中不需要的依赖？
+    4.如何设置依赖的作用范围？
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>org.example</groupId>
+    <artifactId>maven-module1</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>jar</packaging>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+    <dependencies>
+        <!--
+            1.由于依赖传递特性，不需要再去导入依赖中的依赖，全部依赖自动导入
+            下面引入classic这个依赖也能自动引入slf4j和core依赖
+        -->
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>1.4.14</version>
+        </dependency>
+
+        <!--2.和导入仓库中的依赖一样，也能够导入仓库中自己安装的工程模块，同时该模块中的依赖也将被导入-->
+        <dependency>
+            <groupId>org.example</groupId>
+            <artifactId>maven-module2</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <!--
+                3.排除依赖，也就是在本工程中不需要导入工程中的jar包
+                使用exclusions标签，一个个排除依赖，不需要写版本号-->
+            <exclusions>
+                <exclusion>
+                    <groupId>mysql</groupId>
+                    <artifactId>mysql-connector-java</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <!--4.使用scope标签设置依赖范围，设置为test则只能在测试程序中起效-->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.13</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+</project>

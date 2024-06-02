@@ -1,0 +1,17 @@
+org\example\servlet\UpdateServlet.class
+org\example\servlet\CheckCodeServlet.class
+org\example\mapper\BrandMapper.class
+org\example\service\BrandService.class
+org\example\servlet\DeleteServlet.class
+org\example\servlet\RegisterServlet.class
+org\example\servlet\SelectByIdServlet.class
+org\example\servlet\AddServlet.class
+org\example\mapper\UserMapper.class
+org\example\pojo\User.class
+org\example\filter\LoginFilter.class
+org\example\util\SqlSessionFactoryUtil.class
+org\example\pojo\Brand.class
+org\example\servlet\LoginServlet.class
+org\example\service\UserService.class
+org\example\servlet\SelectAllServlet.class
+org\example\util\CheckCodeUtil.class

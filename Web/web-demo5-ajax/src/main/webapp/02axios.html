@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+<script src="js/axios-0.18.0.js"></script>
+<script>
+    /*
+        Axios对原生的ajax封装，简化书写
+        使用准备：导入js文件，放到js文件里面，在本文件中引入js
+        本案例为使用axios用不同请求方式请求数据并处理响应数据
+    */
+    axios.get("http://localhost/web_demo5_ajax_war/axiosServlet?username=zhangsan").then(resp=>{alert(resp.data)})
+    axios.post("http://localhost/web_demo5_ajax_war/axiosServlet","username=zhangsan").then(resp=>{alert(resp.data)})
+</script>
+</html>

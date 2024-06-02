@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.example.mapper.BrandMapper">
+    <resultMap id="brandResultMap" type="Brand">
+        <id column="id" property="id"/>
+        <result column="brand_name" property="brandName"/>
+        <result column="company_name" property="companyName"/>
+    </resultMap>
+    <delete id="deleteByIds">
+        delete from tb_brand where id in
+        <foreach collection="array" item="id" separator="," open="(" close=")">
+            #{id}
+        </foreach>;
+    </delete>
+    <select id="selectByPageAndCondition" resultMap="brandResultMap">
+        select *
+        from tb_brand
+        <where>
+            <if test="brand.status!=null">
+                and  status=#{brand.status}
+            </if>
+            <if test="brand.companyName!=null and brand.companyName!=''">
+                and company_name like #{brand.companyName}
+            </if>
+            <if test="brand.brandName!=null and brand.brandName!=''">
+                and brand_name like #{brand.brandName}
+            </if>
+        </where>
+        limit #{begin},#{size}
+    </select>
+    <select id="selectCountByCondition" resultType="java.lang.Integer">
+        select count(*) from tb_brand
+        <where>
+            <if test="status!=null">
+                and  status=#{status}
+            </if>
+            <if test="companyName!=null and companyName!=''">
+                and company_name like #{companyName}
+            </if>
+            <if test="brandName!=null and brandName!=''">
+                and brand_name like #{brandName}
+            </if>
+        </where>
+    </select>
+</mapper>

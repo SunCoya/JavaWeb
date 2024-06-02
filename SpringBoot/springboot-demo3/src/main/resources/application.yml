@@ -1,0 +1,47 @@
+#后缀名可以是yml或者是yaml（Yet Another Markup Language）
+
+#相当于配置server.port=xxx与server.address=xxx
+
+#配置文件优先级：pro>yml>yaml
+
+server:
+  port: 8080
+  address: 127.0.0.1
+
+#命令行运行java项目：端口设置，优先级高于配置文件
+#java  -jar springboot-demo3-0.0.1-SNAPSHOT.jar --server.port=8080
+
+
+spring:
+  application:
+    name: springboot-demo3
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/db1
+    username: root
+    password: 123456
+  servlet:
+    multipart:
+      ##配置post请求大小限制与上传单个文件大小
+      max-request-size: 10MB
+      max-file-size: 2MB
+mybatis:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    map-underscore-to-camel-case: true
+
+#打开spring的事务管理的开关
+logging:
+  level:
+    org.springframework.jdbc.support.JdbcTransactionManager: debug
+
+
+#定义对象或者Map
+user:
+  name: Tom
+  age: 20
+#定义数组或者list
+hobby:
+  - java
+  - game
+  - dance

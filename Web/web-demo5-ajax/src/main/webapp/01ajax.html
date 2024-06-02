@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+</body>
+<script>
+    /*
+    AJAX(Asynchronous JavaScript And XML)：异步的js和xml
+    异步交互：与服务器交换数据并且更新部分网页的技术（局部刷新），操作无需等待服务器响应，直到数据响应回来才改变html页面
+    本案例使用ajax请求数据与处理响应数据，发送路径需要使用全路径
+    */
+    xhttp = new XMLHttpRequest();
+    xhttp.open("GET", " http://localhost/web_demo5_ajax_war/ajaxServlet");
+    xhttp.send();
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            alert(this.responseText);
+        }
+    };
+</script>
+</html>

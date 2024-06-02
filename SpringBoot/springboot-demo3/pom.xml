@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.example</groupId>
+        <artifactId>springboot-demo3-parent</artifactId>
+        <version>1.0-SNAPSHOT</version>
+        <!--退一层找父工程的pom文件，不指定则找本地/远程仓库-->
+        <!--也能有父工程中包含子工程的层级结构，更加清晰-->
+        <relativePath>../springboot-demo3-parent/pom.xml</relativePath>
+    </parent>
+    <!--公司名可以删除，这个是能继承的-->
+    <groupId>com.example</groupId>
+    <artifactId>springboot-demo3</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>springboot-demo3</name>
+    <description>springboot-demo3</description>
+
+    <!--打包插件-->
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <excludes>
+                        <exclude>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                        </exclude>
+                    </excludes>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
